@@ -51,6 +51,7 @@ public class ProductController {
     public ResponseEntity<Long> delete(
             @PathVariable("id") @NotBlank(message = "삭제 시 id는 필수 입니다.") long id,
             @PathVariable("size") @NotBlank(message = "삭제 시 size는 필수 입니다.") String size) {
-        return ResponseEntity.ok(productService.delete(id, size));
+        ProductId productId = new ProductId(id, size);
+        return ResponseEntity.ok(productService.delete(productId));
     }
 }

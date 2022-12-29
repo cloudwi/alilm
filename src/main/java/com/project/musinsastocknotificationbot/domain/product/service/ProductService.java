@@ -26,10 +26,9 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public long delete(long id, String size) {
-        ProductId productId = new ProductId(id, size);
+    public long delete(ProductId productId) {
         productRepository.deleteById(productId);
-        return id;
+        return productId.getId();
     }
 
 }
