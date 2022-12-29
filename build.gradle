@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.1'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.project'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //webClient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.5.5'
+    //database
+    implementation 'com.h2database:h2'
+    //validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //jsoup
+    implementation 'org.jsoup:jsoup:1.15.3'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
