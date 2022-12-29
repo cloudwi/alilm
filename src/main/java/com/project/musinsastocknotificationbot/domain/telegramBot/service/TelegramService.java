@@ -108,7 +108,7 @@ public class TelegramService extends TelegramLongPollingBot {
         }
     }
 
-    @Scheduled(cron = "0/2 * * * * ?")
+    @Scheduled(cron = "0/2 * * * * ?") //유동적으로 졸
     public void sendMessageScheduled() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -125,7 +125,7 @@ public class TelegramService extends TelegramLongPollingBot {
             String title = doc.select("span.product_title").text();
             for (Element element : elements.select("option")) {
                 String target = element.text();
-                if (target.contains(product.getProductId().getSize()) && !target.contains("품절")) {
+                if (target.contains(product.getProductId().getSize()) && !target.contains("(품절)")) {
                     stringBuilder.append(title);
                     stringBuilder.append(" : ");
                     stringBuilder.append("구매가능");
