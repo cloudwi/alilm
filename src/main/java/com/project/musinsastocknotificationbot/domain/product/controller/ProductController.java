@@ -8,9 +8,6 @@ import com.project.musinsastocknotificationbot.domain.product.entity.idClass.Pro
 import com.project.musinsastocknotificationbot.domain.product.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Null;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +26,7 @@ public class ProductController {
 
     @PostMapping()
     public ResponseEntity<ProductSaveResponseDto> save(@RequestBody @Valid ProductSaveRequestDto productSaveRequestDto) {
-        ProductId productId = productService.save(productSaveRequestDto);
+        ProductId productId = productService.save(productSaveRequestDto.getId(), productSaveRequestDto.getSize());
         ProductSaveResponseDto productSaveResponseDto = new ProductSaveResponseDto(productId.getId(), productId.getSize());
         return ResponseEntity.ok(productSaveResponseDto);
     }

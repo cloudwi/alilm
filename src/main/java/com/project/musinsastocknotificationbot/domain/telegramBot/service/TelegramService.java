@@ -110,6 +110,8 @@ public class TelegramService extends TelegramLongPollingBot {
 
     @Scheduled(cron = "0/2 * * * * ?") //유동적으로 졸
     public void sendMessageScheduled() {
+        log.info("korea weather update");
+
         StringBuilder stringBuilder = new StringBuilder();
 
         productRepository.findAll().forEach(product -> {
