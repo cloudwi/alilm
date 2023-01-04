@@ -1,3 +1,7 @@
+secret:
+  telegramToken: ${TELEGRAM_TOKEN}
+  chat_id: ${CHAT_ID}
+
 spring:
   datasource:
     driver-class-name: org.h2.Driver
@@ -19,8 +23,3 @@ spring:
         show_sql: true
     database: h2
     show-sql: true
-
-
-secret:
-  telegramToken: ${TELEGRAM_TOKEN}
-  chat_id: ${CHAT_ID}
