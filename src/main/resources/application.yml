@@ -5,7 +5,7 @@ secret:
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/Musinsa-Stock-Notification-Bot
+    url: jdbc:h2:mem:test
     username: sa
     password:
 
