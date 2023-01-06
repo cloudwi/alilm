@@ -39,7 +39,9 @@ public class ProductController {
         products.forEach(product -> {
             productFindAllResponseDtos.add(new ProductFindAllResponseDto(
                     product.getProductId().getId(),
-                    product.getProductId().getSize()));
+                    product.getProductId().getSize(),
+                    product.getTitle(),
+                    product.getImageUrl()));
         });
         return ResponseEntity.ok(productFindAllResponseDtos);
     }

@@ -5,6 +5,7 @@ import com.project.musinsastocknotificationbot.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 
 import java.io.Serializable;
 
@@ -16,14 +17,18 @@ public class Product extends BaseTimeEntity implements Serializable {
 
     @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
+    @Lob
+    private String imageUrl;
 
     public Product() {
 
     }
 
-    public Product(ProductId productId, String title) {
+    public Product(ProductId productId, String title, String imageUrl) {
         this.productId = productId;
         this.title = title;
+        this.imageUrl = imageUrl;
     }
 
     public ProductId getProductId() {
@@ -32,5 +37,9 @@ public class Product extends BaseTimeEntity implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

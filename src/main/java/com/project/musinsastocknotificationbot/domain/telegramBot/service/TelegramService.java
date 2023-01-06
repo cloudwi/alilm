@@ -71,7 +71,9 @@ public class TelegramService extends TelegramLongPollingBot {
                     throw new RuntimeException(e);
                 }
                 String title = doc.select("span.product_title").text();
-                Product product = new Product(productId,title);
+                String imageUrl = doc.select("div.product-img").html();
+
+                Product product = new Product(productId, title, imageUrl);
                 productRepository.save(product);
             }
             case "/findAll" -> {
@@ -102,7 +104,9 @@ public class TelegramService extends TelegramLongPollingBot {
         }
 
         try {
+
             execute(sendMessage);
+
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }

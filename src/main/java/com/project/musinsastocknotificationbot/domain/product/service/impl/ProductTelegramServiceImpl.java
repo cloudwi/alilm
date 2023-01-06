@@ -31,7 +31,9 @@ public class ProductTelegramServiceImpl implements ProductService {
                 throw new RuntimeException(e);
             }
         String title = doc.select("span.product_title").text();
-        Product product = new Product(productId, title);
+        String imageUrl = doc.select("div.product-img").html();
+
+        Product product = new Product(productId, title, imageUrl);
         return productRepository.save(product).getProductId();
     }
 
