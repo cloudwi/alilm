@@ -1,16 +1,39 @@
 # Musinsa-Stock-Notification-Bot
-- 무신사에서 내가 사고싶은 옷이 품절이라 재 입고 문의를 넣어본 적이 있습니다.
-  - 하지만 돌아오는 답변은 "입고 예정이 없습니다." 따라서 저는 기약없는 기다림을 해야 했습니다. 
-  - 그런데 누군가 주문을 취소했다면 혹은 내가 모르는 사이에 입고가 되었다면 ?. 너무 아쉽겠죠
-  - 이 서비스로 기다림을 줄여보세요
 
-## 사용방법
-- git clone https://github.com/cloudwi/Musinsa-Stock-Notification-Bot.git
-- 블로그에서 안내하는 텔레그램 토큰과 chat_id 준비 https://kshman94.tistory.com/40
-- cd src/main/resources/application.yml 에 telegramToken, chat_id를 본인이 정보로 수정
-- Java 애플리케이션 실행
-- 구매하고 싶지만 품절인 상품 품번 확인 아래이미지 url의 2747337과 같은 자리에 있습니다.
-  
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/5afcf943-0e03-4e31-9e8d-f69d414fa15a/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221229%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221229T180207Z&X-Amz-Expires=86400&X-Amz-Signature=f49a619e1cc33d5b5b47fdc85ee639135bcfdad2d29142c2bbb9d7783d1b42de&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject" width="400" height="400"/>
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/83359606-b39c-44b2-a440-4a931ae7939d/KakaoTalk_Photo_2022-12-30-03-01-34.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221229%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221229T180636Z&X-Amz-Expires=86400&X-Amz-Signature=35c911cd6e6e4f35b6110fbb8c891ea2e16c6e88bbe7fca99addebfbedf0a2fc&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22KakaoTalk_Photo_2022-12-30-03-01-34.jpeg%22&x-id=GetObject" width="200" height="400"/>
-363
+### 프로젝트 기간
+11월 29 ~ 1월 6일 
+
+### 기획의도
+> 무신사에서 사고싶은 옷이 품절이라 기다려본 경험이 있습니다.
+> 문의도 넣어보았지만 돌아오는 답변은 아래와 같습니다.
+> 따라서 정확한 일정을 모르는 
+> 1. 다른 사람이 반품 
+> 2. 주문 취소
+> 3. 알려지지 않은 재입고
+>
+> 가 되어야 구매가 가능합니다.
+
+![스크린샷 2023-02-09 03.53.43.png](..%2F..%2F..%2F%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202023-02-09%2003.53.43.png)
+
+> 그렇다면 매번 무신사에서 내가원하는 상품 페이지에 들어가서 직접 확인해야하는 노동이 필요합니다.
+> 위 일을 자동으로 컴퓨터에게 시켜서 내가 원하는 상품이 입고되었다면 알림을 받을 수 있도록 하는 서비스를 만들어 보고 싶었습니다.
+
+### 사용방법
+1. code clone
+```
+git clone https://github.com/cloudwi/Musinsa-Stock-Notification-Bot.git
+```
+2. 토큰번호, 챗 Id 환경변수로 등록 
+- 블로그에서 알려주는 텔레그램 토큰과 chat_id 준비 https://kshman94.tistory.com/40
+or 
+- cd src/main/resources/application.yml 에 ${telegramToken}, ${chat_id}를 본인이 정보로 수정 해도됩니다.
+3. Java 애플리케이션 실행
+```
+./gradlew build
+java -jar Musinsa-Stock-Notification-Bot-0.0.1-SNAPSHOT.jar
+```
+4. 상품 등록 그리고 기다림 ...
+<img src=img.png width="250"/>
+- /add 의 id는 원하는 상품의 번호이다 예시로 아래의 사진 왼쪽 상단에 표시하고있는 7자리 번호입니다.
+- 그리고 ,{원하는 사이즈} 를 입력하면 됩니다.
+![스크린샷 2023-02-09 04.00.30.png](..%2F..%2F..%2F%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202023-02-09%2004.00.30.png)
