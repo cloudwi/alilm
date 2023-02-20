@@ -26,7 +26,7 @@ git clone https://github.com/cloudwi/Musinsa-Stock-Notification-Bot.git
 2. 토큰번호, 챗 Id 환경변수로 등록 
 - 블로그에서 알려주는 텔레그램 토큰과 chat_id 준비 https://kshman94.tistory.com/40
 or 
-- cd src/main/resources/application.yml 에 ${telegramToken}, ${chat_id}를 본인이 정보로 수정 해도됩니다.
+- cd src/main/resources/application.yml 에 telegramToken, chat_id를 본인이 정보로 수정 해도됩니다.
 3. Java 애플리케이션 실행
 ```
 ./gradlew build
