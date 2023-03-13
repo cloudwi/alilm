@@ -39,6 +39,8 @@ java -jar Musinsa-Stock-Notification-Bot-0.0.1-SNAPSHOT.jar
 - /add 의 id는 원하는 상품의 번호이다 예시로 아래의 사진 왼쪽 상단에 표시하고있는 7자리 번호입니다.
 - 그리고 ,{원하는 사이즈} 를 입력하면 됩니다.
 
+![스크린샷 2023-02-09 04 00 30](https://user-images.githubusercontent.com/86584887/217726498-eb24064a-73cf-4bcc-afdb-14b0b549688a.png)
+
 ```
 /add 2921758,30 //상품등록 명령어
 ```
@@ -48,5 +50,3 @@ java -jar Musinsa-Stock-Notification-Bot-0.0.1-SNAPSHOT.jar
 ```
 /delete 2921758,30 //등록된 상품 
 ```
-
-![스크린샷 2023-02-09 04 00 30](https://user-images.githubusercontent.com/86584887/217726498-eb24064a-73cf-4bcc-afdb-14b0b549688a.png)
