@@ -28,7 +28,7 @@ git clone https://github.com/cloudwi/Musinsa-Stock-Notification-Bot.git
 
 or
 
-- cd src/main/resources/application.yml 에 telegramToken, chat_id를 본인이 정보로 수정 해도됩니다.
+- cd src/main/resources/application.yml 에 telegramToken, chat_id를 본인의 정보로 수정 해야합니다..
 3. Java 애플리케이션 실행
 ```
 ./gradlew build
@@ -38,5 +38,15 @@ java -jar Musinsa-Stock-Notification-Bot-0.0.1-SNAPSHOT.jar
 <img src=img.png width="250"/>
 - /add 의 id는 원하는 상품의 번호이다 예시로 아래의 사진 왼쪽 상단에 표시하고있는 7자리 번호입니다.
 - 그리고 ,{원하는 사이즈} 를 입력하면 됩니다.
+
+```
+/add 2921758,30 //상품등록 명령어
+```
+```
+/findAll //등록 상품 전체 조회 명령어
+```
+```
+/delete 2921758,30 //등록된 상품 
+```
 
 ![스크린샷 2023-02-09 04 00 30](https://user-images.githubusercontent.com/86584887/217726498-eb24064a-73cf-4bcc-afdb-14b0b549688a.png)
