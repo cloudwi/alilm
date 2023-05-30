@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.domain.telegramBot.entity;
+package com.project.musinsastocknotificationbot.telegramBot.entity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

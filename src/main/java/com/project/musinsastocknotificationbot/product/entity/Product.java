@@ -1,6 +1,6 @@
-package com.project.musinsastocknotificationbot.domain.product.entity;
+package com.project.musinsastocknotificationbot.product.entity;
 
-import com.project.musinsastocknotificationbot.domain.product.entity.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.entity.idClass.ProductId;
 import com.project.musinsastocknotificationbot.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;

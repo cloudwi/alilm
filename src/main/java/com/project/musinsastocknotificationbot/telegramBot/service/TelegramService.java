@@ -1,9 +1,9 @@
-package com.project.musinsastocknotificationbot.domain.telegramBot.service;
+package com.project.musinsastocknotificationbot.telegramBot.service;
 
-import com.project.musinsastocknotificationbot.domain.product.entity.Product;
-import com.project.musinsastocknotificationbot.domain.product.entity.idClass.ProductId;
-import com.project.musinsastocknotificationbot.domain.product.repository.ProductRepository;
-import com.project.musinsastocknotificationbot.domain.telegramBot.entity.TelegramWebClient;
+import com.project.musinsastocknotificationbot.product.entity.Product;
+import com.project.musinsastocknotificationbot.product.entity.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.repository.ProductRepository;
+import com.project.musinsastocknotificationbot.telegramBot.entity.TelegramWebClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -33,7 +33,10 @@ public class TelegramService extends TelegramLongPollingBot {
     private WebClient webClient;
     private String chatId;
 
-    public TelegramService(@Value("${secret.telegramToken}") String telegramToken, ProductRepository productRepository, TelegramWebClient telegramWebClient, @Value("${secret.chat_id}") String chatId) {
+    public TelegramService(@Value("${secret.telegramToken}") String telegramToken,
+        ProductRepository productRepository, TelegramWebClient telegramWebClient,
+        @Value("${secret.chat_id}") String chatId) {
+
         this.telegramToken = telegramToken;
         this.productRepository = productRepository;
         this.doc = null;
@@ -53,7 +56,7 @@ public class TelegramService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        String[] message = update.getMessage().getText().toString().split(" ");
+        String[] message = update.getMessage().getText().split(" ");
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(update.getMessage().getChatId().toString());
@@ -94,25 +97,21 @@ public class TelegramService extends TelegramLongPollingBot {
                 ProductId productId = new ProductId(Long.parseLong(productInfo[0]), productInfo[1]);
                 productRepository.deleteById(productId);
             }
-            default -> {
-                sendMessage.setText("""
-                        올바른 명령어를 입력해주세요!
-                        1. /add {id},{size}
-                        2. /findAll
-                        3. /delete {id},{size}""");
-            }
+            default -> sendMessage.setText("""
+                    올바른 명령어를 입력해주세요!
+                    1. /add {id},{size}
+                    2. /findAll
+                    3. /delete {id},{size}""");
         }
 
         try {
-
             execute(sendMessage);
-
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Scheduled(cron = "0/2 * * * * ?") //유동적으로 졸
+    @Scheduled(cron = "0/30 * * * * ?")
     public void sendMessageScheduled() {
         log.info("korea weather update");
 
@@ -136,14 +135,14 @@ public class TelegramService extends TelegramLongPollingBot {
                     stringBuilder.append(" : ");
                     stringBuilder.append("구매가능");
                     stringBuilder.append("\n");
+                    stringBuilder.append("구매 링크 : ");
+                    stringBuilder.append(url);
                     productRepository.deleteById(product.getProductId());
                 }
             }
         });
 
-        if (stringBuilder.isEmpty()) {
-
-        } else {
+        if (!stringBuilder.isEmpty()) {
             String encodeResult = URLEncoder.encode(stringBuilder.toString(), StandardCharsets.UTF_8);
             webClient.get()
                     .uri(uriBuilder -> uriBuilder

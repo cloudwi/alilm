@@ -1,9 +1,9 @@
-package com.project.musinsastocknotificationbot.domain.product.service.impl;
+package com.project.musinsastocknotificationbot.product.service.impl;
 
-import com.project.musinsastocknotificationbot.domain.product.entity.Product;
-import com.project.musinsastocknotificationbot.domain.product.entity.idClass.ProductId;
-import com.project.musinsastocknotificationbot.domain.product.repository.ProductRepository;
-import com.project.musinsastocknotificationbot.domain.product.service.ProductService;
+import com.project.musinsastocknotificationbot.product.entity.Product;
+import com.project.musinsastocknotificationbot.product.entity.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.repository.ProductRepository;
+import com.project.musinsastocknotificationbot.product.service.ProductService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.domain.product.dto.Response;
+package com.project.musinsastocknotificationbot.product.dto.Response;
 
 public class ProductFindAllResponseDto {
     private long id;

@@ -1,8 +1,8 @@
-secret:
-  telegramToken: ${TELEGRAM_TOKEN}
-  chat_id: ${CHAT_ID}
-
 spring:
+  config:
+    import:
+    - optional:file:env/secret.env[.properties]
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test
@@ -23,3 +23,7 @@ spring:
         show_sql: true
     database: h2
     show-sql: true
+
+secret:
+  telegramToken: ${telegramToken}
+  chat_id: ${chat_id}

@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.domain.product.entity.idClass;
+package com.project.musinsastocknotificationbot.product.entity.idClass;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
