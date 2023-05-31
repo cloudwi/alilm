@@ -13,5 +13,4 @@ public class MusinsaStockNotificationBotApplication {
     public static void main(String[] args) {
         SpringApplication.run(MusinsaStockNotificationBotApplication.class, args);
     }
-
 }
