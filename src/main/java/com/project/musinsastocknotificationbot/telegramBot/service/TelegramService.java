@@ -1,10 +1,11 @@
 package com.project.musinsastocknotificationbot.telegramBot.service;
 
 import com.project.musinsastocknotificationbot.product.domain.Product;
-import com.project.musinsastocknotificationbot.product.domain.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
 import com.project.musinsastocknotificationbot.product.domain.repository.ProductRepository;
 import com.project.musinsastocknotificationbot.product.error.JsoupIOException;
-import com.project.musinsastocknotificationbot.telegramBot.domain.TelegramWebClient;
+import com.project.musinsastocknotificationbot.telegramBot.domain.TelegramBotCommand;
+import com.project.musinsastocknotificationbot.telegramBot.infrastructure.TelegramWebClient;
 import com.project.musinsastocknotificationbot.telegramBot.error.CustomTelegramApiException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,11 +30,12 @@ import java.nio.charset.StandardCharsets;
 public class TelegramService extends TelegramLongPollingBot {
 
     private final String telegramToken;
-    private final Logger log = LoggerFactory.getLogger(TelegramService.class);
     private final ProductRepository productRepository;
-    private Document doc;
-    private WebClient webClient;
-    private String chatId;
+    private final WebClient webClient;
+    private final String chatId;
+    private Document doc = null;
+
+    private static final String BASE_URL = "https://www.musinsa.com/app/goods/";
 
     public TelegramService(@Value("${secret.telegramToken}") String telegramToken,
         ProductRepository productRepository, TelegramWebClient telegramWebClient,
@@ -41,7 +43,6 @@ public class TelegramService extends TelegramLongPollingBot {
 
         this.telegramToken = telegramToken;
         this.productRepository = productRepository;
-        this.doc = null;
         this.webClient = telegramWebClient.getWebClient();
         this.chatId = chatId;
     }
@@ -58,31 +59,34 @@ public class TelegramService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        String[] message = update.getMessage().getText().split(" ");
+        String[] inputMessage = update.getMessage().getText().split(" ");
+        TelegramBotCommand telegramBotCommand = TelegramBotCommand.valueOf(inputMessage[0]);
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(update.getMessage().getChatId().toString());
+        sendMessage.setChatId(chatId);
 
-        switch (message[0]) {
-            case "/add" -> {
-                String[] productInfo = message[1].split(",");
-                ProductId productId = new ProductId(Long.parseLong(productInfo[0]), productInfo[1]);
+        switch (telegramBotCommand) {
+            case ADD -> {
+                ProductInfo productInfo = getProductInfo(inputMessage);
+                long productId = productInfo.getId();
 
-                String url = "https://www.musinsa.com/app/goods/" + productInfo[0];
+                String musinsaProductUrl = BASE_URL + productId;
 
                 try {
-                    doc = Jsoup.connect(url).get();
+                    doc = Jsoup.connect(musinsaProductUrl).get();
                 } catch (IOException e) {
                     throw new JsoupIOException(e);
                 }
+
                 String title = doc.select("span.product_title").text();
                 String imageUrl = doc.select("div.product-img").html();
 
-                Product product = new Product(productId, title, imageUrl);
+                Product product = Product.of(productInfo, title, imageUrl);
                 productRepository.save(product);
             }
-            case "/findAll" -> {
+            case FIND_ALL -> {
                 StringBuilder stringBuilder = new StringBuilder();
+
                 productRepository.findAll().forEach(product -> {
                     stringBuilder.append("Id : ");
                     stringBuilder.append(product.getProductId().getId());
@@ -92,12 +96,13 @@ public class TelegramService extends TelegramLongPollingBot {
                     stringBuilder.append(product.getTitle());
                     stringBuilder.append("\n");
                 });
+
                 sendMessage.setText(stringBuilder.toString());
             }
-            case "/delete" -> {
-                String[] productInfo = message[1].split(",");
-                ProductId productId = new ProductId(Long.parseLong(productInfo[0]), productInfo[1]);
-                productRepository.deleteById(productId);
+            case DELETE -> {
+                ProductInfo productInfo = getProductInfo(inputMessage);
+
+                productRepository.deleteById(productInfo);
             }
             default -> sendMessage.setText("""
                     올바른 명령어를 입력해주세요!
@@ -113,17 +118,23 @@ public class TelegramService extends TelegramLongPollingBot {
         }
     }
 
+    private static ProductInfo getProductInfo(String[] inputMessage) {
+        String[] inputProductInfo = inputMessage[1].split(",");
+        long productId = Long.parseLong(inputProductInfo[0]);
+        String productSize = inputProductInfo[1];
+
+        return ProductInfo.from(productId, productSize);
+    }
+
     @Scheduled(cron = "0/30 * * * * ?")
     public void sendMessageScheduled() {
-        log.info("korea weather update");
-
         StringBuilder stringBuilder = new StringBuilder();
 
         productRepository.findAll().forEach(product -> {
-            String url = "https://www.musinsa.com/app/goods/" + product.getProductId().getId();
+            String crawlingUrl = BASE_URL + product.getProductId().getId();
 
             try {
-                doc = Jsoup.connect(url).get();
+                doc = Jsoup.connect(crawlingUrl).get();
             } catch (IOException e) {
                 throw new JsoupIOException(e);
             }
@@ -138,7 +149,7 @@ public class TelegramService extends TelegramLongPollingBot {
                     stringBuilder.append("구매가능");
                     stringBuilder.append("\n");
                     stringBuilder.append("구매 링크 : ");
-                    stringBuilder.append(url);
+                    stringBuilder.append(crawlingUrl);
                     productRepository.deleteById(product.getProductId());
                 }
             }

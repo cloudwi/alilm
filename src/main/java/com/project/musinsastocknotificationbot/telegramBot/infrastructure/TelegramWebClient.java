@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.telegramBot.domain;
+package com.project.musinsastocknotificationbot.telegramBot.infrastructure;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,16 +10,17 @@ public class TelegramWebClient {
     private final WebClient webClient;
     DefaultUriBuilderFactory defaultUriBuilderFactory;
 
-    public TelegramWebClient(@Value("${secret.telegramToken}") String token) {
-        String sendMessageSubUrl = "/sendmessage";
-        String baseUrl = "https://api.telegram.org/bot";
-        String telegramUrl = baseUrl + token + sendMessageSubUrl;
+    private static final String BASE_URL = "https://api.telegram.org/bot";
+    private static final String SEND_MESSAGE_SUBURL = "/sendmessage";
 
-        defaultUriBuilderFactory = new DefaultUriBuilderFactory(telegramUrl);
+    public TelegramWebClient(@Value("${secret.telegramToken}") String token) {
+        String telegramBotUrl = BASE_URL + token + SEND_MESSAGE_SUBURL;
+
+        defaultUriBuilderFactory = new DefaultUriBuilderFactory(telegramBotUrl);
         defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         this.webClient = WebClient.builder()
                 .uriBuilderFactory(defaultUriBuilderFactory)
-                .baseUrl(telegramUrl)
+                .baseUrl(telegramBotUrl)
                 .build();
     }
 

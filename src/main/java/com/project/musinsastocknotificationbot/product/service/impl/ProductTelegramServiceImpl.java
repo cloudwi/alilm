@@ -1,7 +1,7 @@
 package com.project.musinsastocknotificationbot.product.service.impl;
 
 import com.project.musinsastocknotificationbot.product.domain.Product;
-import com.project.musinsastocknotificationbot.product.domain.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
 import com.project.musinsastocknotificationbot.product.domain.repository.ProductRepository;
 import com.project.musinsastocknotificationbot.product.error.JsoupIOException;
 import com.project.musinsastocknotificationbot.product.service.ProductService;
@@ -18,17 +18,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductTelegramServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private static final String BASE_UTL = "https://www.musinsa.com/app/goods/";
+    private static final String BASE_URL = "https://www.musinsa.com/app/goods/";
+
+    private static final String TITLE_HTML = "span.product_title";
+    private static final String IMAGE_URL_LINK = "div.product-img";
 
     public ProductTelegramServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @Transactional
-    public ProductId save(long id, String size) {
+    public ProductInfo save(long productId, String productSize) {
         Document doc;
-        ProductId productId = new ProductId(id, size);
-        String url = BASE_UTL + id;
+        ProductInfo productInfo = ProductInfo.from(productId, productSize);
+        String url = BASE_URL + productId;
 
         try {
             doc = Jsoup.connect(url).get();
@@ -36,10 +39,10 @@ public class ProductTelegramServiceImpl implements ProductService {
             throw new JsoupIOException(e);
         }
 
-        String title = doc.select("span.product_title").text();
-        String imageUrl = doc.select("div.product-img").html();
+        String title = doc.select(TITLE_HTML).text();
+        String imageUrl = doc.select(IMAGE_URL_LINK).html();
 
-        Product product = new Product(productId, title, imageUrl);
+        Product product = Product.of(productInfo, title, imageUrl);
 
         return productRepository.save(product).getProductId();
     }
@@ -49,8 +52,9 @@ public class ProductTelegramServiceImpl implements ProductService {
     }
 
     @Transactional
-    public long delete(ProductId productId) {
-        productRepository.deleteById(productId);
-        return productId.getId();
+    public long delete(ProductInfo productInfo) {
+        productRepository.deleteById(productInfo);
+
+        return productInfo.getId();
     }
 }

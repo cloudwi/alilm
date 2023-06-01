@@ -12,12 +12,11 @@ public class Member extends BaseTimeEntity {
   private Long id;
 
   @Column
-  private String password;
+  private String chatId;
 
   protected Member() {}
 
-  public Member(long id, String password) {
-    this.id = id;
-    this.password = password;
+  public Member(String chatId) {
+    this.chatId = chatId;
   }
 }

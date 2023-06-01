@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.product.domain.idClass;
+package com.project.musinsastocknotificationbot.product.domain.vo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -6,19 +6,23 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class ProductId implements Serializable {
+public class ProductInfo implements Serializable {
 
     @Column
     private long id;
     @Column
     private String size;
 
-    public ProductId() {
+    protected ProductInfo() {
     }
 
-    public ProductId(long id, String size) {
+    private ProductInfo(long id, String size) {
         this.id = id;
         this.size = size;
+    }
+
+    public static ProductInfo from(long productId, String productSize) {
+        return new ProductInfo(productId, productSize);
     }
 
     public long getId() {

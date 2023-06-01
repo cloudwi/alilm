@@ -1,11 +1,12 @@
 package com.project.musinsastocknotificationbot.product.controller;
 
-import com.project.musinsastocknotificationbot.product.domain.dto.Response.ProductFindAllResponseDto;
-import com.project.musinsastocknotificationbot.product.domain.dto.Response.ProductSaveResponseDto;
-import com.project.musinsastocknotificationbot.product.domain.dto.request.ProductSaveRequestDto;
+import com.project.musinsastocknotificationbot.product.domain.dto.Response.ProductFindAllResponse;
+import com.project.musinsastocknotificationbot.product.domain.dto.Response.ProductSaveResponse;
+import com.project.musinsastocknotificationbot.product.domain.dto.request.ProductSaveRequest;
 import com.project.musinsastocknotificationbot.product.domain.Product;
-import com.project.musinsastocknotificationbot.product.domain.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
 import com.project.musinsastocknotificationbot.product.service.ProductService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import java.util.ArrayList;
@@ -31,27 +32,27 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<ProductSaveResponseDto> save(
+    public ResponseEntity<ProductSaveResponse> save(
         @RequestBody
-        @Validated
-        ProductSaveRequestDto productSaveRequestDto
+        @Valid
+        ProductSaveRequest productSaveRequest
     ) {
-        ProductId productId = productService.save(productSaveRequestDto.id(),
-            productSaveRequestDto.size());
-        ProductSaveResponseDto productSaveResponseDto = new ProductSaveResponseDto(
-            productId.getId(), productId.getSize());
+        ProductInfo productInfo = productService.save(productSaveRequest.id(),
+            productSaveRequest.size());
+        ProductSaveResponse productSaveResponseDto = new ProductSaveResponse(
+            productInfo.getId(), productInfo.getSize());
         return ResponseEntity.ok(productSaveResponseDto);
     }
 
     @GetMapping()
-    public ResponseEntity<List<ProductFindAllResponseDto>> findAll() {
-        List<ProductFindAllResponseDto> productFindAllResponseDtos = new ArrayList<>();
+    public ResponseEntity<List<ProductFindAllResponse>> findAll() {
+        List<ProductFindAllResponse> productFindAllResponses = new ArrayList<>();
         List<Product> products = productService.findAll();
 
         products.forEach(
-            product -> productFindAllResponseDtos.add(ProductFindAllResponseDto.from(product)));
+            product -> productFindAllResponses.add(ProductFindAllResponse.from(product)));
 
-        return ResponseEntity.ok(productFindAllResponseDtos);
+        return ResponseEntity.ok(productFindAllResponses);
     }
 
     @DeleteMapping("/{id}/{size}")
@@ -65,7 +66,7 @@ public class ProductController {
             @Pattern(regexp = "[A-Z0-9]+", message = "사이즈 형식에 맞지 않습니다.")
             String size
     ) {
-        ProductId productId = new ProductId(id, size);
-        return ResponseEntity.ok(productService.delete(productId));
+        ProductInfo productInfo = ProductInfo.from(id, size);
+        return ResponseEntity.ok(productService.delete(productInfo));
     }
 }

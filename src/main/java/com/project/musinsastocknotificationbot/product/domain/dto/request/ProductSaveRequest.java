@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record ProductSaveRequestDto(
+public record ProductSaveRequest(
     @NotNull(message = "품목 id는 필수 입니다.")
     long id,
 
