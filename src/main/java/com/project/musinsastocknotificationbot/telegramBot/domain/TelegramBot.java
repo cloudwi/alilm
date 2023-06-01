@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.telegramBot.entity;
+package com.project.musinsastocknotificationbot.telegramBot.domain;
 
 import com.project.musinsastocknotificationbot.telegramBot.service.TelegramService;
 import org.springframework.stereotype.Component;

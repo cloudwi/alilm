@@ -1,9 +1,11 @@
 package com.project.musinsastocknotificationbot.telegramBot.service;
 
-import com.project.musinsastocknotificationbot.product.entity.Product;
-import com.project.musinsastocknotificationbot.product.entity.idClass.ProductId;
-import com.project.musinsastocknotificationbot.product.repository.ProductRepository;
-import com.project.musinsastocknotificationbot.telegramBot.entity.TelegramWebClient;
+import com.project.musinsastocknotificationbot.product.domain.Product;
+import com.project.musinsastocknotificationbot.product.domain.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.domain.repository.ProductRepository;
+import com.project.musinsastocknotificationbot.product.error.JsoupIOException;
+import com.project.musinsastocknotificationbot.telegramBot.domain.TelegramWebClient;
+import com.project.musinsastocknotificationbot.telegramBot.error.CustomTelegramApiException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -71,7 +73,7 @@ public class TelegramService extends TelegramLongPollingBot {
                 try {
                     doc = Jsoup.connect(url).get();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throw new JsoupIOException(e);
                 }
                 String title = doc.select("span.product_title").text();
                 String imageUrl = doc.select("div.product-img").html();
@@ -107,7 +109,7 @@ public class TelegramService extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            throw new CustomTelegramApiException(e);
         }
     }
 
@@ -123,7 +125,7 @@ public class TelegramService extends TelegramLongPollingBot {
             try {
                 doc = Jsoup.connect(url).get();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new JsoupIOException(e);
             }
 
             Elements elements = doc.select("select.option1");

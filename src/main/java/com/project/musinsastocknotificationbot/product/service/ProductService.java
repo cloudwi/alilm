@@ -1,7 +1,7 @@
 package com.project.musinsastocknotificationbot.product.service;
 
-import com.project.musinsastocknotificationbot.product.entity.Product;
-import com.project.musinsastocknotificationbot.product.entity.idClass.ProductId;
+import com.project.musinsastocknotificationbot.product.domain.Product;
+import com.project.musinsastocknotificationbot.product.domain.idClass.ProductId;
 
 import java.util.List;
 

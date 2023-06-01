@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.global.error.entity;
+package com.project.musinsastocknotificationbot.common.error.entity;
 
 import java.util.List;
 import org.springframework.validation.BindingResult;
@@ -10,14 +10,14 @@ public record CustomFieldError (
     String reason
 ) {
 
-  public static List<CustomFieldError> of(BindingResult bindingResult) {
+  public static List<CustomFieldError> from(BindingResult bindingResult) {
     return bindingResult.getFieldErrors()
         .stream()
-        .map(CustomFieldError::of)
+        .map(CustomFieldError::from)
         .toList();
   }
 
-  private static CustomFieldError of(FieldError fieldError) {
+  private static CustomFieldError from(FieldError fieldError) {
     String field = fieldError.getField();
     String value = (String) fieldError.getRejectedValue();
     String reason = fieldError.getDefaultMessage();

@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.product.dto.request;
+package com.project.musinsastocknotificationbot.product.domain.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.global.entity;
+package com.project.musinsastocknotificationbot.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EntityListeners;

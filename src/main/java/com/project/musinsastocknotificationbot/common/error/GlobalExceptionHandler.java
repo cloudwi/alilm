@@ -1,6 +1,6 @@
-package com.project.musinsastocknotificationbot.global.error;
+package com.project.musinsastocknotificationbot.common.error;
 
-import com.project.musinsastocknotificationbot.global.error.entity.ErrorResponse;
+import com.project.musinsastocknotificationbot.common.error.entity.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

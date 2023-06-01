@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.global.error.entity;
+package com.project.musinsastocknotificationbot.common.error.entity;
 
 import java.util.List;
 import org.springframework.validation.BindingResult;
@@ -12,6 +12,6 @@ public record ErrorResponse(
   }
 
   public static ErrorResponse of(BindingResult bindingResult) {
-    return new ErrorResponse(CustomFieldError.of(bindingResult));
+    return new ErrorResponse(CustomFieldError.from(bindingResult));
   }
 }
