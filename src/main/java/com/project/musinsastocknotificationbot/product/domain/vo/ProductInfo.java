@@ -1,5 +1,7 @@
 package com.project.musinsastocknotificationbot.product.domain.vo;
 
+import static com.project.musinsastocknotificationbot.common.BaseUrl.MUSINSA_PRODUCT_BASE_URL;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -10,11 +12,11 @@ public class ProductInfo implements Serializable {
 
     @Column
     private long id;
+
     @Column
     private String size;
 
-    protected ProductInfo() {
-    }
+    protected ProductInfo() {}
 
     private ProductInfo(long id, String size) {
         this.id = id;
@@ -31,5 +33,9 @@ public class ProductInfo implements Serializable {
 
     public String getSize() {
         return size;
+    }
+
+    public String getMusinsaProductUrl() {
+        return MUSINSA_PRODUCT_BASE_URL.getBaseUrl() + this.id;
     }
 }
