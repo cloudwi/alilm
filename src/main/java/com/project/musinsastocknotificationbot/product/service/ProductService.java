@@ -1,15 +1,10 @@
 package com.project.musinsastocknotificationbot.product.service;
 
-import com.project.musinsastocknotificationbot.product.domain.Product;
-import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
-
-import java.util.List;
-
 public interface ProductService {
 
-    ProductInfo save(long id, String size);
+    void save(String[] inputMessage);
 
-    List<Product> findAll();
+    void findAll();
 
-    long delete(ProductInfo productInfo);
+    void delete(String[] inputMessage);
 }
