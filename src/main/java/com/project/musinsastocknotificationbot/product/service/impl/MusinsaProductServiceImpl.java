@@ -10,7 +10,6 @@ import com.project.musinsastocknotificationbot.telegramBot.service.TelegramServi
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,8 +18,7 @@ public class MusinsaProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final Crawling crawling;
 
-    public MusinsaProductServiceImpl(ProductRepository productRepository,
-        Crawling crawling) {
+    public MusinsaProductServiceImpl(ProductRepository productRepository, Crawling crawling) {
         this.productRepository = productRepository;
         this.crawling = crawling;
     }
@@ -45,7 +43,6 @@ public class MusinsaProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findAll();
 
         StringBuilder stringBuilder = new StringBuilder();
-        SendMessage sendMessage = new SendMessage();
 
         products.forEach(product -> {
             stringBuilder.append("Id : ");
@@ -57,7 +54,7 @@ public class MusinsaProductServiceImpl implements ProductService {
             stringBuilder.append("\n");
         });
 
-        TelegramService.sendMessage(sendMessage.toString());
+        TelegramService.sendMessage(stringBuilder.toString());
     }
 
     @Transactional
