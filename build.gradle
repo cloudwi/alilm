@@ -18,6 +18,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     //webClient
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.5.5'
+    //validator
+    implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
     //database
     implementation 'com.h2database:h2'
     //jsoup

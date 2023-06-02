@@ -2,13 +2,14 @@ package com.project.musinsastocknotificationbot.product.infrastructure.impl;
 
 import com.project.musinsastocknotificationbot.product.domain.dto.Response.CrawlingResponse;
 import com.project.musinsastocknotificationbot.product.error.JsoupIOException;
+import com.project.musinsastocknotificationbot.product.infrastructure.Crawling;
 import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
-public class MusinsaCrawlingImpl {
+@Component
+public class MusinsaCrawlingImpl implements Crawling {
 
   public CrawlingResponse crawling (String url) {
     try {
