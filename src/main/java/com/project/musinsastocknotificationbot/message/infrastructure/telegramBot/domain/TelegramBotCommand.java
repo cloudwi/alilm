@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.telegramBot.domain;
+package com.project.musinsastocknotificationbot.message.infrastructure.telegramBot.domain;
 
 import java.util.Arrays;
 
@@ -6,7 +6,9 @@ public enum TelegramBotCommand {
 
   ADD("/add"),
   DELETE("/delete"),
-  FIND_ALL("/findAll");
+  FIND_ALL("/findAll"),
+  DEFAULT("/default");
+
 
   private String command;
 
@@ -22,6 +24,6 @@ public enum TelegramBotCommand {
     return Arrays.stream(values())
         .filter(value -> value.command.equals(inputMessage))
         .findAny()
-        .orElse(null);
+        .orElse(DEFAULT);
   }
 }

@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.product.domain.dto.Response;
+package com.project.musinsastocknotificationbot.product.dto.Response;
 
 import com.project.musinsastocknotificationbot.product.domain.Product;
 

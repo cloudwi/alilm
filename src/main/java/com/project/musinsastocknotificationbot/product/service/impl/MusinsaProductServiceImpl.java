@@ -1,13 +1,16 @@
 package com.project.musinsastocknotificationbot.product.service.impl;
 
+import com.project.musinsastocknotificationbot.crawling.Crawling;
+import com.project.musinsastocknotificationbot.crawling.dto.TrackProductRequest;
 import com.project.musinsastocknotificationbot.product.domain.Product;
-import com.project.musinsastocknotificationbot.product.domain.dto.Response.CrawlingResponse;
 import com.project.musinsastocknotificationbot.product.domain.repository.ProductRepository;
 import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
-import com.project.musinsastocknotificationbot.product.infrastructure.Crawling;
+import com.project.musinsastocknotificationbot.product.dto.Response.CrawlingResponse;
+import com.project.musinsastocknotificationbot.product.event.ProductEvent;
 import com.project.musinsastocknotificationbot.product.service.ProductService;
-import com.project.musinsastocknotificationbot.telegramBot.service.TelegramService;
 import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,17 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MusinsaProductServiceImpl implements ProductService {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final ProductRepository productRepository;
     private final Crawling crawling;
 
-    public MusinsaProductServiceImpl(ProductRepository productRepository, Crawling crawling) {
+    public MusinsaProductServiceImpl(ApplicationEventPublisher applicationEventPublisher,
+        ProductRepository productRepository, Crawling crawling) {
+        this.applicationEventPublisher = applicationEventPublisher;
         this.productRepository = productRepository;
         this.crawling = crawling;
     }
 
     @Transactional
-    public void save(String[] inputMessage) {
-        ProductInfo productInfo = getProductInfo(inputMessage);
+    public void save(ProductInfo productInfo) {
         String musinsaProductUrl = productInfo.getMusinsaProductUrl();
 
         CrawlingResponse crawlingResponse = crawling.crawling(musinsaProductUrl);
@@ -34,13 +39,14 @@ public class MusinsaProductServiceImpl implements ProductService {
 
         Product product = Product.of(productInfo, title, imageUrl);
 
-        TelegramService.sendMessage("등록 : " + title);
+        String message = "등록 : " + title;
+        applicationEventPublisher.publishEvent(ProductEvent.of(message));
 
         productRepository.save(product);
     }
 
     public void findAll() {
-        List<Product> products = productRepository.findAll();
+        List<Product> products = getProducts();
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -54,21 +60,35 @@ public class MusinsaProductServiceImpl implements ProductService {
             stringBuilder.append("\n");
         });
 
-        TelegramService.sendMessage(stringBuilder.toString());
+        applicationEventPublisher.publishEvent(ProductEvent.of(stringBuilder.toString()));
+    }
+
+    @Scheduled(cron = "0/30 * * * * ?")
+    @Transactional
+    public void track() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<TrackProductRequest> trackProductRequests = getProducts()
+            .stream()
+            .map(TrackProductRequest::new)
+            .toList();
+
+        crawling.track(trackProductRequests).forEach(trackProductResponse -> {
+            ProductInfo productInfo = trackProductResponse.toProductInfo();
+            delete(productInfo);
+
+            stringBuilder.append(trackProductResponse.getMessage());
+        });
+
+        applicationEventPublisher.publishEvent(ProductEvent.of(stringBuilder.toString()));
     }
 
     @Transactional
-    public void delete(String[] inputMessage) {
-        ProductInfo productInfo = getProductInfo(inputMessage);
-
+    public void delete(ProductInfo productInfo) {
         productRepository.deleteById(productInfo);
     }
 
-    private ProductInfo getProductInfo(String[] inputMessage) {
-        String[] inputProductInfo = inputMessage[1].split(",");
-        long productId = Long.parseLong(inputProductInfo[0]);
-        String productSize = inputProductInfo[1];
-
-        return ProductInfo.from(productId, productSize);
+    private List<Product> getProducts() {
+        return productRepository.findAll();
     }
 }

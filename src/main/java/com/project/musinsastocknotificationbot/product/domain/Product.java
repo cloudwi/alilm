@@ -1,5 +1,6 @@
 package com.project.musinsastocknotificationbot.product.domain;
 
+import com.project.musinsastocknotificationbot.crawling.dto.TrackProductRequest;
 import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
 import com.project.musinsastocknotificationbot.common.entity.BaseTimeEntity;
 import jakarta.persistence.Column;

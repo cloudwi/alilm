@@ -2,6 +2,7 @@ package com.project.musinsastocknotificationbot.product.domain.vo;
 
 import static com.project.musinsastocknotificationbot.common.BaseUrl.MUSINSA_PRODUCT_BASE_URL;
 
+import com.project.musinsastocknotificationbot.crawling.dto.TrackProductRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
