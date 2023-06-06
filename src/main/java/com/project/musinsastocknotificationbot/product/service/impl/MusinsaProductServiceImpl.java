@@ -32,38 +32,25 @@ public class MusinsaProductServiceImpl implements ProductService {
     @Transactional
     public void save(ProductInfo productInfo) {
         String musinsaProductUrl = productInfo.getMusinsaProductUrl();
-
         CrawlingResponse crawlingResponse = crawling.crawling(musinsaProductUrl);
-        String title = crawlingResponse.title();
-        String imageUrl = crawlingResponse.imageUrl();
+        Product product = crawlingResponse.toProduct(productInfo);
 
-        Product product = Product.of(productInfo, title, imageUrl);
-
-        String message = "등록 : " + title;
+        String message = "등록 완료 : " + crawlingResponse.title();
         applicationEventPublisher.publishEvent(ProductEvent.of(message));
 
         productRepository.save(product);
     }
 
     public void findAll() {
-        List<Product> products = getProducts();
-
         StringBuilder stringBuilder = new StringBuilder();
 
-        products.forEach(product -> {
-            stringBuilder.append("Id : ");
-            stringBuilder.append(product.getProductId().getId());
-            stringBuilder.append(" Size : ");
-            stringBuilder.append(product.getProductId().getSize());
-            stringBuilder.append(" Title : ");
-            stringBuilder.append(product.getTitle());
-            stringBuilder.append("\n");
-        });
+        List<Product> products = getProducts();
+        products.forEach(product -> stringBuilder.append(product.getMessage()));
 
         applicationEventPublisher.publishEvent(ProductEvent.of(stringBuilder.toString()));
     }
 
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     @Transactional
     public void track() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -80,7 +67,9 @@ public class MusinsaProductServiceImpl implements ProductService {
             stringBuilder.append(trackProductResponse.getMessage());
         });
 
-        applicationEventPublisher.publishEvent(ProductEvent.of(stringBuilder.toString()));
+        if(!stringBuilder.isEmpty()) {
+            applicationEventPublisher.publishEvent(ProductEvent.of(stringBuilder.toString()));
+        }
     }
 
     @Transactional

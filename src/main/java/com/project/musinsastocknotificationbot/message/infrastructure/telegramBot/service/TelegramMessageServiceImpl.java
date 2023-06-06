@@ -65,7 +65,6 @@ public class TelegramMessageServiceImpl extends TelegramLongPollingBot implement
             case DELETE -> productService.delete(productInfo);
             case DEFAULT -> sendMessage(defaultMessage);
         }
-
     }
 
     private ProductInfo getProductInfo(String[] inputMessage) {

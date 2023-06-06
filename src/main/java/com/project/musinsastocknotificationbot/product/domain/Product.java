@@ -1,13 +1,11 @@
 package com.project.musinsastocknotificationbot.product.domain;
 
-import com.project.musinsastocknotificationbot.crawling.dto.TrackProductRequest;
-import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
 import com.project.musinsastocknotificationbot.common.entity.BaseTimeEntity;
+import com.project.musinsastocknotificationbot.product.domain.vo.ProductInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
-
 import java.io.Serializable;
 
 @Entity
@@ -23,15 +21,11 @@ public class Product extends BaseTimeEntity implements Serializable {
     @Lob
     private String imageUrl;
 
-    public Product() {
+    protected Product() {
 
     }
 
-    public static Product of(ProductInfo productInfo, String title, String imageUrl) {
-        return new Product(productInfo, title, imageUrl);
-    }
-
-    private Product(ProductInfo productInfo, String title, String imageUrl) {
+    public Product(ProductInfo productInfo, String title, String imageUrl) {
         this.productInfo = productInfo;
         this.title = title;
         this.imageUrl = imageUrl;
@@ -41,11 +35,10 @@ public class Product extends BaseTimeEntity implements Serializable {
         return productInfo;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
+    public String getMessage() {
+        return String.format("""
+            %s
+            Title : %s
+            """, productInfo.getMessage(), this.title);
     }
 }
