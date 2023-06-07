@@ -33,6 +33,26 @@ spring:
     database: h2
     show-sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${oauth2_kakao_client-id}
+            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
+            client-authentication-method: POST
+            client-secret: ${client-secret}
+            scope:
+              - account_email
+            client_name: kakao
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
   mail:
     host: smtp.naver.com
     port: 465
@@ -48,3 +68,5 @@ secret:
   telegramToken: ${telegramToken}
   chat_id: ${chat_id}
   bot_name: ${bot_name}
+  oauth2_kakao_client-id: ${oauth2_kakao_client-id}
+  client-secret: ${client-secret}

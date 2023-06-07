@@ -28,6 +28,10 @@ dependencies {
     implementation 'org.telegram:telegrambotsextensions:6.5.0'
     //mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    //security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //oauth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
