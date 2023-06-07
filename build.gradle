@@ -18,14 +18,16 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     //webClient
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.5.5'
+    //validator
+    implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
     //database
     implementation 'com.h2database:h2'
-    //validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
     //jsoup
     implementation 'org.jsoup:jsoup:1.15.3'
     //telegram
-    implementation 'org.telegram:telegrambotsextensions:6.1.0'
+    implementation 'org.telegram:telegrambotsextensions:6.5.0'
+    //mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {

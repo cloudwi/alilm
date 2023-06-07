@@ -1,7 +1,16 @@
 spring:
   config:
     import:
-    - optional:file:env/secret.env[.properties]
+      - optional:file:env/secret.env[.properties]
+
+  profiles:
+    active:
+      - telegram
+    group:
+      email:
+        - email
+      telegram:
+        - telegram
 
   datasource:
     driver-class-name: org.h2.Driver
@@ -24,6 +33,18 @@ spring:
     database: h2
     show-sql: true
 
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: cloudwi@naver.com
+    password: ${email_password}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.naver.com
+      mail.smtp.starttls.enable: true
+
 secret:
   telegramToken: ${telegramToken}
   chat_id: ${chat_id}
+  bot_name: ${bot_name}
