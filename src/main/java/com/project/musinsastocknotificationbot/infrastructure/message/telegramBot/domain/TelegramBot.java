@@ -2,12 +2,14 @@ package com.project.musinsastocknotificationbot.infrastructure.message.telegramB
 
 import com.project.musinsastocknotificationbot.infrastructure.message.telegramBot.error.TelegramApiConnectionException;
 import com.project.musinsastocknotificationbot.infrastructure.message.telegramBot.service.TelegramMessageServiceImpl;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Component
+@Profile("telegram")
 public class TelegramBot {
 
   private final TelegramBotsApi telegramBotsApi;

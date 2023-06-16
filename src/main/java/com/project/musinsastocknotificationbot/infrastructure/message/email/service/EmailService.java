@@ -3,6 +3,7 @@ package com.project.musinsastocknotificationbot.infrastructure.message.email.ser
 import com.project.musinsastocknotificationbot.infrastructure.message.service.MessageService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMessage.RecipientType;
 import java.io.UnsupportedEncodingException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -25,7 +26,7 @@ public class EmailService implements MessageService {
 
   @Override
   public void sendMessage(String message) {
-
+    // TODO document why this method is empty
   }
 
   //메일 양식 작성
@@ -39,14 +40,13 @@ public class EmailService implements MessageService {
     MimeMessage message = javaMailSender.createMimeMessage();
 
     try {
-      message.addRecipients(MimeMessage.RecipientType.TO, toEmail); //보낼 이메일 설정
+      message.addRecipients(RecipientType.TO, toEmail); //보낼 이메일 설정
       message.setSubject(title);
       message.setText(content);//제목 설정
       message.setFrom(setFrom); //보내는 이메일
     } catch (MessagingException e) {
       throw new RuntimeException(e);
     }
-
 
     return message;
   }

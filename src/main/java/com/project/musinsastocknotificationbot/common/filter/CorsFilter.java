@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.common.config;
+package com.project.musinsastocknotificationbot.common.filter;
 
 
 import jakarta.servlet.*;
@@ -29,4 +29,6 @@ public class CorsFilter implements Filter {
             chain.doFilter(req, res);
         }
     }
+
+
 }
