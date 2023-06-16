@@ -6,6 +6,7 @@ import com.project.musinsastocknotificationbot.domain.product.entity.vo.ProductI
 import com.project.musinsastocknotificationbot.domain.product.service.ProductService;
 import com.project.musinsastocknotificationbot.infrastructure.message.telegramBot.error.TelegramApiConnectionException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Service
+@Profile("telegram")
 public class TelegramMessageServiceImpl extends TelegramLongPollingBot implements MessageService {
 
     private final String telegramToken;

@@ -1,4 +1,4 @@
-package com.project.musinsastocknotificationbot.message.infrastructure.telegramBot.error;
+package com.project.musinsastocknotificationbot.infrastructure.message.telegramBot.error;
 
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
