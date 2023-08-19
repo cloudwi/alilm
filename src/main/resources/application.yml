@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: stock-notification
   config:
     import:
       - optional:file:env/secret.env[.properties]
